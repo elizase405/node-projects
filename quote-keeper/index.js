@@ -1,6 +1,8 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
+const rateLimit = require("express-rate-limit");
+const morgan = require("morgan");
 const PORT = process.env.PORT || 3000;
 const FILE_PATH = "./quotes.js";
 const app = express();
@@ -26,6 +28,19 @@ const saveQuotes = (quotes) => {
 }
 
 let quotes = loadQuotes();
+
+// Adding Rate limiting middleware to routes
+// Set rate limit: 10 request per minute
+const limiter = rateLimit({
+    windowMs: 1 * 60 * 1000, // time in milliseconds
+    max: 10, // no of requests allowed
+    message: "Too many requests, please try again later."
+});
+// apply rate limiter to all routes
+app.use(limiter);
+
+// IP Logging
+app.use(morgan("combined"))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
