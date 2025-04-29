@@ -1,0 +1,17 @@
+{
+  "users": [
+    {
+      "id": "80de9b5c-ab4b-4755-bbc0-240a684df3af",
+      "username": "test",
+      "password": "$2b$10$YeE4FTG5DL2jX/3acxKjMO12G75CZr3dpkJMi.hF3QuMKzYOF04XK",
+      "createdAt": "2025-04-24T09:15:09.190Z"
+    },
+    {
+      "id": "898899c2-f4f2-4a97-a2b8-26f454e593f4",
+      "username": "testt",
+      "password": "$2b$10$CsG/AQ/Dg0.Jy8yvp1zJUOFItaa13Y6yiJ/q0MjMDX3Oj7B00ufjG",
+      "createdAt": "2025-04-24T09:16:04.906Z"
+    }
+  ],
+  "quotes": []
+}

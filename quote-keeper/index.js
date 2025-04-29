@@ -1,33 +1,36 @@
-const express = require("express");
-const { v4: uuidv4 } = require("uuid");
-const fs = require("fs");
-const rateLimit = require("express-rate-limit");
-const morgan = require("morgan");
+import express from "express";
+import { v4 as uuidv4 } from "uuid";
+import rateLimit  from "express-rate-limit";
+import morgan from "morgan";
+import dotenv from 'dotenv';
+dotenv.config();
 const PORT = process.env.PORT || 3000;
 const FILE_PATH = "./quotes.js";
 const app = express();
 
-// Load quotes from file
-const loadQuotes = () => {
-    try {
-        if (!fs.existsSync(FILE_PATH)) return [];
-        const data = fs.readFileSync(FILE_PATH, "utf-8");
-        return JSON.parse(data);
-    } catch (err) {
-        console.error("Error reading quotes file:", err);
-        return [];
-    }
-}
-// Save quotes to file
-const saveQuotes = (quotes) => {
-    try {
-        fs.writeFileSync(FILE_PATH, JSON.stringify(quotes, null, 2));
-    } catch (err) {
-        console.error("Error saving quotes:", err);
-    }
-}
+import authRoutes from "./routes/authRoutes.js";
 
-let quotes = loadQuotes();
+// // Load quotes from file
+// const loadQuotes = () => {
+//     try {
+//         if (!fs.existsSync(FILE_PATH)) return [];
+//         const data = fs.readFileSync(FILE_PATH, "utf-8");
+//         return JSON.parse(data);
+//     } catch (err) {
+//         console.error("Error reading quotes file:", err);
+//         return [];
+//     }
+// }
+// // Save quotes to file
+// const saveQuotes = (quotes) => {
+//     try {
+//         fs.writeFileSync(FILE_PATH, JSON.stringify(quotes, null, 2));
+//     } catch (err) {
+//         console.error("Error saving quotes:", err);
+//     }
+// }
+
+// let quotes = loadQuotes();
 
 // Adding Rate limiting middleware to routes
 // Set rate limit: 10 request per minute
@@ -44,6 +47,9 @@ app.use(morgan("combined"))
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
+// connect routes
+app.use("/api/auth", authRoutes)
 
 app.get("/", (req, res) => {
     res.send(`<h1>Welcome to the Quote Keeper API!</h1>
@@ -108,5 +114,5 @@ app.delete("/quotes/:id", (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`server listening at port ${PORT}`);
-})
+        console.log(`server listening at port ${PORT}`);
+    })
