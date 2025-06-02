@@ -31,6 +31,9 @@ const signup = async (req, res) => {
 // LOGIN
 const login = async (req, res) => {
     const { username, password } = req.body;
+    if (!username || !password) {
+        return res.status(400).json({ message: "Please provide username and password" });
+    }
 
     await db.read();
     const user = db.data.users.find(user => user.username === username);
